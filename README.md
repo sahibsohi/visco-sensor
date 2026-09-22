@@ -6,7 +6,7 @@ Visco-Sensor is an end-to-end IoT health-monitoring project designed to ingest w
 
 This repository extends the original Visco-Sensor project through a modern software platform. The original project paired a 3D-printed physical prototype with an application concept for monitoring blood viscosity and communicating trends to patients and healthcare professionals.
 
-> **Development status:** Day 1 establishes the production-minded monorepo, user-interface shell, API health contract, containerized infrastructure, testing, and continuous integration. Device telemetry and clinical workflows will be added incrementally in later milestones.
+> **Development status:** The repository includes a production-minded monorepo, user-interface shell, API health contract, containerized infrastructure, automated testing, and continuous integration. Device telemetry and clinical workflows will be added incrementally as the platform evolves.
 
 ## Why Visco-Sensor?
 
@@ -19,7 +19,7 @@ The project was informed by two separate qualitative interview studies:
 
 The original feasibility work projected that proactive monitoring could reduce per-patient healthcare costs from approximately **$25,000 to $4,000**. This figure is a project estimate, not a clinically observed outcome.
 
-## Day 1 architecture
+## System architecture
 
 ```mermaid
 flowchart LR
