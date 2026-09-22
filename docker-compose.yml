@@ -1,0 +1,59 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  api:
+    build:
+      context: apps/api
+    environment:
+      APP_ENV: development
+      DATABASE_URL: postgresql+psycopg://visco:visco@database:5432/visco_sensor
+      MQTT_HOST: broker
+      MQTT_PORT: 1883
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    depends_on:
+      database:
+        condition: service_healthy
+      broker:
+        condition: service_started
+
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: visco_sensor
+      POSTGRES_USER: visco
+      POSTGRES_PASSWORD: visco
+    ports:
+      - "5432:5432"
+    volumes:
+      - visco_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U visco -d visco_sensor"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  broker:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+volumes:
+  visco_data:
