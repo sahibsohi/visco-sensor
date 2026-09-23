@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npm run dev --workspace=@visco-sensor/web",
     "build": "npm run build --workspace=@visco-sensor/web",
-    "lint": "npm run lint --workspace=@visco-sensor/web",
+    "lint": "cd apps/web && eslint app --max-warnings=0",
     "typecheck": "npm run typecheck --workspace=@visco-sensor/web",
     "test": "npm run test --workspace=@visco-sensor/web"
   },
