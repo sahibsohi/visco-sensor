@@ -1,17 +1,31 @@
 {
-  "name": "visco-sensor",
+  "name": "@visco-sensor/web",
   "version": "0.1.0",
   "private": true,
-  "description": "Software platform for the Visco-Sensor med-tech prototype.",
-  "workspaces": ["apps/web"],
   "scripts": {
-    "dev": "npm run dev --workspace=@visco-sensor/web",
-    "build": "npm run build --workspace=@visco-sensor/web",
-    "lint": "npm run lint --workspace=@visco-sensor/web",
-    "typecheck": "npm run typecheck --workspace=@visco-sensor/web",
-    "test": "npm run test --workspace=@visco-sensor/web"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint app --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
-  "engines": {
-    "node": ">=20"
+  "dependencies": {
+    "next": "15.5.7",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@types/node": "22.18.11",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "5.0.4",
+    "eslint": "9.38.0",
+    "eslint-config-next": "15.5.7",
+    "jsdom": "27.0.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
   }
 }
