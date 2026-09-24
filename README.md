@@ -6,7 +6,7 @@ Visco-Sensor is an end-to-end IoT health-monitoring project designed to ingest w
 
 This repository extends the original Visco-Sensor project through a modern software platform. The original project paired a 3D-printed physical prototype with an application concept for monitoring blood viscosity and communicating trends to patients and healthcare professionals.
 
-> **Development status:** The repository includes a production-minded monorepo, user-interface shell, API health contract, containerized infrastructure, automated testing, and continuous integration. Device telemetry and clinical workflows will be added incrementally as the platform evolves.
+> **Development status:** The repository includes a production-minded monorepo, user-interface shell, validated sensor-data ingestion, PostgreSQL persistence, a deterministic device simulator, automated testing, and continuous integration. Dashboard and clinical demonstration workflows will be added incrementally as the platform evolves.
 
 ## Why Visco-Sensor?
 
@@ -23,11 +23,10 @@ The original feasibility work projected that proactive monitoring could reduce p
 
 ```mermaid
 flowchart LR
-    A["Next.js web app"] -->|REST and WebSocket| B["FastAPI service"]
-    C["Device simulator - Day 2"] -->|MQTT| B
-    B --> D["PostgreSQL"]
-    C -.-> E["Mosquitto broker"]
-    E -.-> B
+    A["Python device simulator"] -->|Versioned JSON| B["FastAPI validation"]
+    B -->|Accepted readings| C["PostgreSQL"]
+    C -->|Queries and summaries| D["REST API"]
+    D --> E["Next.js web app"]
 ```
 
 The foundation separates the user interface, application API, device messaging, and persistence layers. This enables each service to be developed and tested independently while remaining reproducible through Docker Compose.
@@ -36,7 +35,7 @@ The foundation separates the user interface, application API, device messaging, 
 
 | Layer | Tools |
 | --- | --- |
-| Web | Next.js, React, TypeScript, Tailwind CSS |
+| Web | Next.js, React, TypeScript, CSS |
 | API | Python, FastAPI, Pydantic |
 | Streaming | MQTT, WebSockets |
 | Data | PostgreSQL, SQLAlchemy |
@@ -53,7 +52,7 @@ visco-sensor/
 ├── docs/                 # Architecture, product, safety, and roadmap docs
 ├── infra/mosquitto/      # Local MQTT broker configuration
 ├── services/
-│   └── device-simulator/ # Added during the next milestone
+│   └── device-simulator/ # Synthetic readings and retry-aware API client
 ├── .github/workflows/    # Automated quality checks
 ├── docker-compose.yml
 └── Makefile
@@ -72,7 +71,7 @@ visco-sensor/
 2. Start the services:
 
    ```bash
-   docker compose up --build
+   docker compose --profile simulation up --build
    ```
 
 3. Open:
@@ -81,12 +80,15 @@ visco-sensor/
    - API documentation: `http://localhost:8000/docs`
    - API health check: `http://localhost:8000/health`
 
+The optional `simulation` profile begins submitting a synthetic reading every five seconds after the API becomes healthy.
+
 ### Without Docker
 
 ```bash
 make setup
 make api   # terminal 1
 make web   # terminal 2
+python services/device-simulator/simulator.py --count 5  # terminal 3
 ```
 
 ## Quality checks
@@ -102,14 +104,45 @@ The GitHub Actions workflow repeats these checks on pull requests and pushes to 
 ## Planned milestones
 
 1. **Foundation:** monorepo, service health checks, local infrastructure, CI.
-2. **Telemetry:** reproducible Python device simulator and synthetic sensor events.
-3. **Ingestion:** MQTT consumer, validated API contracts, rejected-event handling.
-4. **Data platform:** relational models, migrations, transformations, quality metrics.
+2. **Ingestion pipeline:** reproducible simulator, validated API contracts, relational persistence, and query endpoints.
+3. **Streaming:** MQTT consumer, rejected-event metrics, and asynchronous processing.
+4. **Data platform:** migrations, transformations, and quality metrics.
 5. **Patient experience:** live readings, trend charts, alerts, accessible interface.
 6. **Clinical workflow:** clinician review, alert acknowledgement, audit trail.
 7. **Reliability:** integration tests, observability, expanded CI and documentation.
 
 See [the detailed roadmap](docs/roadmap.md) for suggested commit boundaries.
+
+## Sensor API
+
+Create a synthetic reading:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/readings \
+  -H "Content-Type: application/json" \
+  -d '{
+    "schema_version": "1.0",
+    "event_id": "a293f783-2687-5ea3-9afa-6706a854e508",
+    "device_id": "VS-001",
+    "patient_id": "patient-demo-001",
+    "blood_viscosity_cp": 4.38,
+    "temperature_c": 36.8,
+    "battery_percent": 92,
+    "signal_quality": "good",
+    "device_status": "active",
+    "measured_at": "2026-09-24T16:00:00Z"
+  }'
+```
+
+Query the data:
+
+```text
+GET /api/v1/readings?device_id=VS-001&limit=100
+GET /api/v1/readings/latest/VS-001
+GET /api/v1/devices/VS-001/summary
+```
+
+The ingestion contract enforces timezone-aware timestamps, prototype measurement ranges, valid device states, signal-quality categories, and unique event identifiers.
 
 ## Project authorship
 

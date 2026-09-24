@@ -2,7 +2,7 @@
 
 Each milestone is designed to become one meaningful, testable commit.
 
-## Day 1 - Foundation
+## Foundation
 
 Suggested commit: `chore: initialize Visco-Sensor monorepo`
 
@@ -11,15 +11,17 @@ Suggested commit: `chore: initialize Visco-Sensor monorepo`
 - Add health checks and automated quality gates.
 - Document product, architecture, roadmap, and safety boundaries.
 
-## Day 2 - Device telemetry
+## Sensor ingestion pipeline
 
-Suggested commit: `feat: add simulated device telemetry`
+Suggested commit: `feat: add sensor data ingestion pipeline`
 
-- Generate deterministic viscosity scenarios.
-- Publish versioned MQTT events.
-- Add simulator configuration and unit tests.
+- Generate deterministic synthetic readings.
+- Validate versioned events and reject malformed data.
+- Persist observations in PostgreSQL.
+- Expose recent-reading and device-summary queries.
+- Add simulator configuration, retry handling, and unit tests.
 
-## Day 3 - Ingestion
+## Asynchronous ingestion
 
 Suggested commit: `feat: build telemetry ingestion pipeline`
 
@@ -27,7 +29,7 @@ Suggested commit: `feat: build telemetry ingestion pipeline`
 - Validate schemas and timestamps.
 - Record accepted and rejected event metrics.
 
-## Day 4 - Data platform
+## Data transformations
 
 Suggested commit: `feat: persist and transform sensor data`
 
@@ -35,7 +37,7 @@ Suggested commit: `feat: persist and transform sensor data`
 - Preserve raw events and derived observations.
 - Build daily and weekly transformations.
 
-## Day 5 - Patient monitoring
+## Patient monitoring
 
 Suggested commit: `feat: add real-time patient dashboard`
 
@@ -43,7 +45,7 @@ Suggested commit: `feat: add real-time patient dashboard`
 - Visualize synthetic trends and device state.
 - Add accessible alert presentation.
 
-## Day 6 - Clinician workflow
+## Clinician workflow
 
 Suggested commit: `feat: implement alert review workflow`
 
@@ -51,7 +53,7 @@ Suggested commit: `feat: implement alert review workflow`
 - Record a traceable audit history.
 - Present longitudinal summaries.
 
-## Day 7 - Reliability
+## Reliability
 
 Suggested commit: `test: add end-to-end pipeline validation`
 

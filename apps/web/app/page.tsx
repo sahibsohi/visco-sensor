@@ -1,7 +1,7 @@
 const foundationItems = [
-  { number: "01", title: "Connected architecture", text: "Independent services for the interface, API, messaging, and data layers." },
-  { number: "02", title: "Typed contracts", text: "TypeScript and Pydantic establish dependable boundaries before telemetry arrives." },
-  { number: "03", title: "Reproducible locally", text: "Docker Compose starts the application, database, API, and MQTT broker together." },
+  { number: "01", title: "Validated ingestion", text: "Pydantic contracts reject malformed, duplicate, and out-of-range synthetic readings." },
+  { number: "02", title: "Persistent telemetry", text: "PostgreSQL stores indexed observations for device-level time-series queries." },
+  { number: "03", title: "Reproducible simulation", text: "A deterministic Python device sends versioned events with retry handling." },
 ];
 
 export default function Home() {
@@ -14,19 +14,19 @@ export default function Home() {
         </a>
         <div className="navMeta">
           <span className="statusDot" aria-hidden="true" />
-          Foundation online
+          Data pipeline online
         </div>
       </nav>
 
       <section id="top" className="hero">
-        <div className="eyebrow">Med-tech software platform · Day 01</div>
+        <div className="eyebrow">Med-tech software platform · Synthetic data</div>
         <h1>Turning sensor data into an earlier signal.</h1>
         <p className="lede">
           Visco-Sensor is an end-to-end IoT platform being built to ingest synthetic wearable telemetry,
           validate time-series data, and surface real-time insights for patients and clinicians.
         </p>
         <div className="actions">
-          <a className="button primary" href="#foundation">Explore the foundation</a>
+          <a className="button primary" href="#foundation">Explore the pipeline</a>
           <a className="button secondary" href="http://localhost:8000/docs">View API docs</a>
         </div>
       </section>
@@ -39,7 +39,7 @@ export default function Home() {
 
       <section id="foundation" className="foundation">
         <div className="sectionHeading">
-          <span>Engineering foundation</span>
+          <span>Data engineering pipeline</span>
           <h2>Built to grow one verified layer at a time.</h2>
         </div>
         <div className="cards">
@@ -55,10 +55,10 @@ export default function Home() {
 
       <section className="nextStep">
         <div>
-          <span className="eyebrow">Next milestone</span>
-          <h2>Simulated device telemetry</h2>
+          <span className="eyebrow">Pipeline capability</span>
+          <h2>Validated device telemetry</h2>
         </div>
-        <p>A deterministic Python service will publish versioned viscosity events through MQTT.</p>
+        <p>A deterministic Python service submits versioned readings for validation, persistence, and query.</p>
       </section>
 
       <footer>

@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     app_name: str = "Visco-Sensor API"
     app_env: str = "development"
     api_version: str = "0.1.0"
+    database_url: str = "sqlite:///./visco_sensor.db"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

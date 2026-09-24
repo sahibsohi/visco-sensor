@@ -32,6 +32,21 @@ services:
       broker:
         condition: service_started
 
+  device-simulator:
+    build:
+      context: .
+      dockerfile: services/device-simulator/Dockerfile
+    environment:
+      API_URL: http://api:8000
+      DEVICE_ID: VS-001
+      PATIENT_ID: patient-demo-001
+      INTERVAL_SECONDS: 5
+      SIMULATOR_SEED: 42
+    depends_on:
+      api:
+        condition: service_healthy
+    profiles: ["simulation"]
+
   database:
     image: postgres:17-alpine
     environment:

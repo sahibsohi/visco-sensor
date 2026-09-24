@@ -1,5 +1,5 @@
 # Visco-Sensor API
 
-FastAPI service providing the application boundary for Visco-Sensor.
+FastAPI service providing the application and data boundary for Visco-Sensor.
 
-Day 1 exposes service metadata and health endpoints. Telemetry contracts and data persistence arrive in later milestones.
+The service validates synthetic prototype readings, persists them with SQLAlchemy, and exposes recent-reading and device-summary queries. Interactive documentation is available at `/docs` when the service is running.

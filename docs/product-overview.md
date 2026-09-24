@@ -21,6 +21,6 @@ Two independent qualitative interview efforts shaped the concept:
 
 These interviews informed product direction. They do not constitute clinical validation or a controlled study.
 
-## Day 1 outcome
+## Engineering foundation
 
 The first milestone provides the engineering foundation: clear service ownership, runnable health endpoints, development infrastructure, quality tooling, and safety boundaries.

@@ -16,12 +16,12 @@ api:
 
 test:
 	npm test
-	.venv/bin/pytest apps/api
+	.venv/bin/pytest apps/api services/device-simulator
 
 lint:
 	npm run lint
 	npm run typecheck
-	.venv/bin/ruff check apps/api
+	.venv/bin/ruff check --config apps/api/pyproject.toml apps/api services/device-simulator
 
 build:
 	npm run build
